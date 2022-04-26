@@ -1,8 +1,12 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/starships">Starships</router-link>
   </nav>
+  <div id="top-bar">
+    <router-link to="/login">Login</router-link> | 
+    <router-link to="/register">Register</router-link>
+  </div>
   <router-view/>
 </template>
 
@@ -26,5 +30,11 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#top-bar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 </style>
