@@ -23,9 +23,9 @@ export default {
         let arrayUsers = JSON.parse(localStorage.getItem('arrayUsers'));
         let found = arrayUsers.find( user => user.mail == this.mail && user.pass == btoa(this.pass));
         if (found) {
-            console.log('Usuari loguejat correctament');
+            console.log("User logged in");
         } else {
-            console.log('No es troba l´usuari');
+            console.log("User not found");
         }
         this.mail = '';
         this.pass = '';

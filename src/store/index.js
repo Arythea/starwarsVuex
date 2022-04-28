@@ -5,8 +5,9 @@ export default createStore({
   state: {
     starships: [],
     nextPage: 1,
-    currentStarship: null,
-    finish: false
+    currentStarship: false,
+    finish: false,
+    placeholder: require('../assets/placeholder.jpg')
   },
   getters: {
   },
@@ -26,7 +27,7 @@ export default createStore({
   actions: {
     async getAPIstarships( context ) {
       let APIdata = await axios.get(`https://swapi.dev/api/starships/?page=${context.state.nextPage}`);
-      let arrayStarships = APIdata.data.results.map( x => {
+      let arrayStarships = await APIdata.data.results.map( x => {
         let segments = x.url.split('/');
         let id = segments[segments.length - 2];
         return {...x, id};
@@ -35,6 +36,7 @@ export default createStore({
     },
     async getAPIstarshipById( context, id ) {
       let APIdata = await axios.get(`https://swapi.dev/api/starships/${id}/`);
+      APIdata.data.id = id;
       context.commit('setCurrentStarship', APIdata.data);
     }
   },
