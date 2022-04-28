@@ -16,8 +16,7 @@ export default {
       return {
           mail: '',
           pass: '',
-          arrayUsers: [],
-          errorMsg: 'adjla dlj'
+          arrayUsers: []
       }
   },
   methods: {

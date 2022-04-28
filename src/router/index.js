@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import store from '@/store/index.js'
 
 const routes = [
   {
@@ -10,12 +11,27 @@ const routes = [
   {
     path: '/starships',
     name: 'starships',
-    component: () => import(/* webpackChunkName: "starships" */ '../views/StarshipsView.vue')
+    component: () => import(/* webpackChunkName: "starships" */ '../views/StarshipsView.vue'),
+    // beforeEnter: (to, from, next) => {
+    //   if(store.state.loggedin == false) {
+    //     next("/login");
+    //   } else {
+    //     next();
+    //   }
+    // }
   },
   {
     path: '/ship/:id',
     name: 'ship',
-    component: () => import(/* webpackChunkName: "ship" */ '../views/ShipView.vue')
+    component: () => import(/* webpackChunkName: "ship" */ '../views/ShipView.vue'),
+    // beforeEnter: (to, from, next) => {
+    //   console.log(store.state.loggedin);
+    //   if(store.state.loggedin == false) {
+    //     next("/login");
+    //   } else {
+    //     next();
+    //   }
+    // }
   },
   {
     path: '/login',

@@ -1,27 +1,15 @@
 <template>
   <div>
-    <h1>Starship</h1>
-    <h2 v-if="currentStarship">{{ currentStarship.name }}</h2>
-    <p>{{ currentStarship }}</p>
+    <ShipComp />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import ShipComp from "@/components/ShipComp.vue";
 
 export default {
-  computed: {
-    ...mapState(['currentStarship'])
-  },
-  created() {
-    this.$store.dispatch('getAPIstarshipById', this.$route.params.id);
+  components: {
+    ShipComp
   }
 }
 </script>
-
-<style scoped>
-  ul, li{
-    margin: 20px auto;
-    list-style: none;
-  }
-</style>

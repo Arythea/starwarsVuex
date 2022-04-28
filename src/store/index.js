@@ -6,9 +6,33 @@ export default createStore({
     starships: [],
     nextPage: 1,
     currentStarship: null,
-    finish: false
+    finish: false,
+    loggedin: false,
+    pilots: [],
+    films: []
   },
   getters: {
+    getStarships(state) {
+      return state.starships;
+    },
+    getNextPage(state) {
+      return state.nextPage;
+    },
+    getCurrentStarship(state) {
+      return state.currentStarship;
+    },
+    getFinish(state) {
+      return state.finish;
+    },
+    getLoggedin(state) {
+      return state.loggedin;
+    },
+    getPilots(state) {
+      return state.pilots;
+    },
+    getFilms(state) {
+      return state.films;
+    }
   },
   mutations: {
     setStarships(state, data) {
@@ -21,6 +45,15 @@ export default createStore({
     },
     setCurrentStarship(state, data) {
       state.currentStarship = data;
+    },
+    setLoggedin(state, value) {
+      state.loggedin = value;
+    },
+    pushCurrentArrayPilots(state, {pilot, number}) {
+      state.pilots[number] = pilot;
+    },
+    pushCurrentArrayFilms(state, {film, number}) {
+      state.films[number] = film;
     }
   },
   actions: {
@@ -36,6 +69,16 @@ export default createStore({
     async getAPIstarshipById( context, id ) {
       let APIdata = await axios.get(`https://swapi.dev/api/starships/${id}/`);
       context.commit('setCurrentStarship', APIdata.data);
+    },
+    async getAPIpilot( context, {url, number} ){
+      let APIdata = await axios.get(url);
+      let pilot = APIdata.data;
+      context.commit('pushCurrentArrayPilots', {pilot, number});
+    },
+    async getAPIfilm( context, {url, number} ){
+      let APIdata = await axios.get(url);
+      let film = APIdata.data;
+      context.commit('pushCurrentArrayFilms', {film, number});
     }
   },
   modules: {

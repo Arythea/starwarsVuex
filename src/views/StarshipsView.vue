@@ -3,7 +3,7 @@
     <h1>Starships</h1>
     <ul>
       <li v-for="(item,index) in starships" :key="index">
-        <b><a :href="`/ship/${item.id}`">{{ item.name }}</a></b><br>
+        <b><router-link :to="`/ship/${item.id}`">{{ item.name }}</router-link></b><br>
         {{ item.model }}
       </li>
     </ul>
@@ -12,17 +12,20 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState(['starships', 'nextPage', 'finish'])
-  },
-  methods: {
-    ...mapActions(['getAPIstarships'])
+    ...mapGetters({
+      starships: 'getStarships', 
+      nextPage: 'getNextPage', 
+      finish: 'getFinish'
+    })
   },
   mounted() {
-    this.$store.dispatch('getAPIstarships');
+    if(this.$store.state.nextPage == 1){
+      this.$store.dispatch('getAPIstarships');
+    }
   }
 }
 </script>

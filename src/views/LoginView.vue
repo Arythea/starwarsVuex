@@ -24,12 +24,16 @@ export default {
         let found = arrayUsers.find( user => user.mail == this.mail && user.pass == btoa(this.pass));
         if (found) {
             console.log('Usuari loguejat correctament');
+            this.$store.commit('setLoggedin', true);
         } else {
             console.log('No es troba l´usuari');
         }
         this.mail = '';
         this.pass = '';
       }
+  },
+  created() {
+    console.log(this.$store.state.loggedin);
   }
 }
 </script>
