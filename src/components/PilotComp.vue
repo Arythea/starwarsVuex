@@ -1,58 +1,61 @@
 <template>
   <div>
-    <h1>Pilot</h1>
-    <hr>
-    <pre v-if="pilots[number]">
-        {{ pilots[number] }}
-        <h2>PELIS</h2>
-        <FilmComp v-for="(film, index) in pilots[number].films" :key="index" :url="film" :number="index" :reduced="true"/>
-        <h2>Naus</h2>
-        <ShipMini v-for="(ship, index) in pilots[number].starships" :key="index" :url="ship" :number="index" />
-    </pre>
-    <hr>
+      <div v-if="pilot">
+        <div class="card">
+            <div class="card-title">{{ pilot.name }}</div>
+            <div class="card-data">{{ pilot.gender }}</div>
+            <div class="card-data">{{ pilot.height }}m. height</div>
+            <div class="card-data">{{ pilot.mass }}kg.</div>
+            <div class="card-data">{{ pilot.hair_color }} hair</div>
+            <div class="card-data">{{ pilot.eye_color }} eyes</div>
+        </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import FilmComp from "@/components/FilmComp.vue";
-import ShipMini from "@/components/ShipMini.vue";
 
 export default {
   name: 'PilotComp',
   props: ['url','number'],
-  components: {
-      FilmComp,
-      ShipMini
-  },
   computed: {
-    ...mapGetters({pilots: 'getPilots'})
+    ...mapGetters({pilotByNumber: 'getPilotByNumber'}),
+    pilot() {
+        return this.pilotByNumber(this.number);
+    }
   },
   created() {
     let url = this.url;
     let number = this.number;
-    this.$store.dispatch('getAPIpilot', {url, number});
+    this.$store.dispatch('getAPIpilots', {url, number});
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-h1 {
-  margin-top: 30px;
-}
+    .card {
+        background: #333;
+        border-radius: 5px;
+        padding: 15px;
+        width: 90%;
+        text-align: center;
+        margin-top: 20px;
+    }
+    .card-title {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .card-data {
+        background: #666;
+        border-radius: 5px;
+        padding: 2px 5px;
+        width: auto;
+        display: inline-block;
+        margin-left: 5px;
+        margin-top: 10px;
+    }
 </style>

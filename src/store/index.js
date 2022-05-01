@@ -9,7 +9,9 @@ export default createStore({
     finish: false,
     loggedin: false,
     pilots: [],
-    films: []
+    films: [],
+    finish: false,
+    placeholderImg: require('../assets/placeholder.jpg')
   },
   getters: {
     getStarships(state) {
@@ -27,11 +29,22 @@ export default createStore({
     getLoggedin(state) {
       return state.loggedin;
     },
-    getPilots(state) {
-      return state.pilots;
+    getPilotByNumber: (state) => (number) => {
+      if (state.pilots[number]){
+        return state.pilots[number];
+      } else {
+        return null;
+      }
     },
-    getFilms(state) {
-      return state.films;
+    getFilmByNumber: (state) => (number) => {
+      if (state.films[number]){
+        return state.films[number];
+      } else {
+        return null;
+      }
+    },
+    getPlaceholderImg(state) {
+      return state.placeholderImg;
     }
   },
   mutations: {
@@ -42,6 +55,7 @@ export default createStore({
       } else {
         state.finish = true;
       }
+      state.fetching = false;
     },
     setCurrentStarship(state, data) {
       state.currentStarship = data;
@@ -58,8 +72,9 @@ export default createStore({
   },
   actions: {
     async getAPIstarships( context ) {
+      context.state.fetching = true;
       let APIdata = await axios.get(`https://swapi.dev/api/starships/?page=${context.state.nextPage}`);
-      let arrayStarships = APIdata.data.results.map( x => {
+      let arrayStarships = await APIdata.data.results.map( x => {
         let segments = x.url.split('/');
         let id = segments[segments.length - 2];
         return {...x, id};
@@ -68,9 +83,10 @@ export default createStore({
     },
     async getAPIstarshipById( context, id ) {
       let APIdata = await axios.get(`https://swapi.dev/api/starships/${id}/`);
+      APIdata.data.id = id;
       context.commit('setCurrentStarship', APIdata.data);
     },
-    async getAPIpilot( context, {url, number} ){
+    async getAPIpilots( context, {url, number} ){
       let APIdata = await axios.get(url);
       let pilot = APIdata.data;
       context.commit('pushCurrentArrayPilots', {pilot, number});
@@ -79,8 +95,10 @@ export default createStore({
       let APIdata = await axios.get(url);
       let film = APIdata.data;
       context.commit('pushCurrentArrayFilms', {film, number});
+    },
+    logout(context) {
+      console.log('Logged out');
+      context.commit('setLoggedin', false);
     }
-  },
-  modules: {
   }
 })

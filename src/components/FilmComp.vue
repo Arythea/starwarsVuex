@@ -1,12 +1,10 @@
 <template>
-  <div class="hello">
-    <h1>Film</h1>
-    <pre v-if="films[number]">
-        {{ films[number].title  }}
-        <div v-if="reduced!=true">
-            {{ films[number] }}
-        </div>
-    </pre>
+  <div>
+    <div v-if="film">
+      <div class="card">
+          <div class="card-title">{{ `${film.title} (${film.release_date.substring(0,4)})`}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,9 +12,12 @@
 import { mapGetters } from "vuex";
 export default {
   name: 'FilmComp',
-  props: ['url','number','reduced'],
+  props: ['url','number'],
   computed: {
-    ...mapGetters({films: 'getFilms'})
+    ...mapGetters({filmByNumber: 'getFilmByNumber'}),
+    film() {
+        return this.filmByNumber(this.number);
+    }
   },
   created() {
     let url = this.url;
@@ -26,20 +27,13 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+    .card {
+        background: #666;
+        border-radius: 5px;
+        padding: 2px 5px;
+        width: auto;
+        margin-left: 5px;
+        margin-top: 10px;
+    }
 </style>

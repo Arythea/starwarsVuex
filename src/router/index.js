@@ -12,26 +12,25 @@ const routes = [
     path: '/starships',
     name: 'starships',
     component: () => import(/* webpackChunkName: "starships" */ '../views/StarshipsView.vue'),
-    // beforeEnter: (to, from, next) => {
-    //   if(store.state.loggedin == false) {
-    //     next("/login");
-    //   } else {
-    //     next();
-    //   }
-    // }
+    beforeEnter: (to, from, next) => {
+      if(store.state.loggedin == false) {
+        next("/login");
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/ship/:id',
     name: 'ship',
     component: () => import(/* webpackChunkName: "ship" */ '../views/ShipView.vue'),
-    // beforeEnter: (to, from, next) => {
-    //   console.log(store.state.loggedin);
-    //   if(store.state.loggedin == false) {
-    //     next("/login");
-    //   } else {
-    //     next();
-    //   }
-    // }
+    beforeEnter: (to, from, next) => {
+      if(store.state.loggedin == false) {
+        next("/login");
+      } else {
+        next();
+      }
+    }
   },
   {
     path: '/login',

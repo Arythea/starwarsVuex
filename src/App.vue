@@ -1,19 +1,28 @@
 <template>
   <img id="logo" alt="Vue logo" src="@/assets/logo.png">
-  <nav>
-    <router-link to="/">Home</router-link>
-    <router-link to="/starships">Starships</router-link>
-  </nav>
-  <div id="top-bar">
-    <router-link to="/login">LOG IN</router-link> | 
-    <router-link to="/register">SIGN UP</router-link>
-  </div>
+  <TopBar />
+  <NavBar />
   <router-view/>
+  <FooterComp />
 </template>
+
+<script>
+import FooterComp from "@/components/FooterComp.vue";
+import TopBar from "@/components/TopBar.vue";
+import NavBar from "@/components/NavBar.vue";
+
+export default {
+  components: {
+    FooterComp,
+    TopBar,
+    NavBar
+  }
+}
+</script>
 
 <style>
 body {
-  background: black;
+  background-color: black;
   color: white;
 }
 
@@ -27,7 +36,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 a {
@@ -44,26 +52,9 @@ a.router-link-exact-active {
   border-bottom: 2px solid #ccc;
 }
 
-nav {
-  padding: 12px;
-  margin-top: 20px;
-  color: #ddd;
-  border-top: 1px solid #666;
-  border-bottom: 1px solid #666;
-}
-
-nav a {
-  font-weight: bold;
-  padding: 12px 20px;
-  border-left: 1px solid #666;
-}
-nav a:last-child {
-  border-right: 1px solid #666;
-}
-
-#top-bar {
-  position: absolute;
-  top: 40px;
-  right: 30px;
+@media screen and (max-width: 600px) {
+  #logo {
+    height: 80px;
+  }
 }
 </style>
